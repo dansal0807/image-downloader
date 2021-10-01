@@ -1,42 +1,42 @@
 import tkinter as tk
 import requests
+from tkinter import filedialog
 
 #instanciamento do tkinter:
 ws = tk.Tk()
 ws.title("Image Downloader")
 
 #definindo as configurações do workspace:
-canvas = tk.Canvas(ws, width=600, height=300, bg="#AFEEEE")
+canvas = tk.Canvas(ws, width=800, height=400, bg="#AFEEEE")
 canvas.grid(columnspan=6, rowspan=7)
 
 #instruções para o usuário:
-instructions = tk.Label(ws, text="Digite a URL da qual você deseja baixar a sua imagem.  Importante que seja uma URL que termine em JPG ou PNG:")
-instructions.grid(columnspan=6, column=0, row=0)
-instructions2 = tk.Label(ws, text="diga o nome o qual você deseja salvar o arquivo:")
-instructions2.grid(columnspan=6, column=0, row=3)
+instructions = tk.Label(ws, bg="#AFEEEE", text="Digite a URL da qual você deseja baixar a sua imagem.  \nImportante que seja uma URL que termine em JPG ou PNG:", font=('Helvatical bold',11))
+instructions.grid(columnspan=6, column=0, row=2)
 
 #variáveis:
 urlvar = tk.StringVar()
-filevar = tk.StringVar()
+
 
 #Input do usuário:
-urlentry=tk.Entry(ws, textvariable=urlvar)
-urlentry.grid(columnspan=6, column=0, row=1)
-fileEntry=tk.Entry(ws, textvariable=filevar)
-fileEntry.grid(columnspan=6, column=0, row=4)
+urlentry=tk.Entry(ws, textvariable=urlvar, width=50, font=("default", 11))
+urlentry.grid(columnspan=6, column=0, row=3)
 
 #função de download:
 def image_downloader():
     url_link=urlvar.get()
-    file = filevar.get()
-    file = file + '.jpg'
+    file_request = filedialog.asksaveasfilename(defaultextension='.jpg')
     url_link = requests.get(url_link)
-    with open(file,'wb') as f:
-        f.write(url_link.content)
+    f = open(file_request, 'wb')
+    f.write(url_link.content)
+    f.close()
+#Não há necessidade de usar a função save, pois se pretende não fazer uma lista de arquivos.
+
 
 #Butão utilizado pelo usuário:
-submitBtn=tk.Button(ws, text="Entrar", command=image_downloader)
-submitBtn.grid(columnspan=6, column=0, row=5)
+saveAsButton = tk.Button(text='Baixar imagem', command=image_downloader, bg='green', fg='white', font=('Arial', 12, 'bold'))
+canvas.create_window(150, 180, window=saveAsButton)
+saveAsButton.grid(columnspan=6, column=0, row=4)
 
 #pop-up de ação bem sucedida:
 

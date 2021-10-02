@@ -17,10 +17,18 @@ instructions.grid(columnspan=6, column=0, row=2)
 #variáveis:
 urlvar = tk.StringVar()
 
-
 #Input do usuário:
 urlentry=tk.Entry(ws, textvariable=urlvar, width=50, font=("default", 11))
 urlentry.grid(columnspan=6, column=0, row=3)
+
+def popupmsg(msg):
+    popup = tk.Tk()
+    popup.wm_title("Sucesso")
+    label = tk.Label(popup, text=msg)
+    label.pack(side="top", fill="x", pady=10)
+    B1 = tk.Button(popup, text="Okay", command = popup.destroy)
+    B1.pack(pady=5)
+    popup.mainloop()
 
 #função de download:
 def image_downloader():
@@ -30,6 +38,7 @@ def image_downloader():
     f = open(file_request, 'wb')
     f.write(url_link.content)
     f.close()
+    popupmsg("Seu download foi bem sucedido!")
 #Não há necessidade de usar a função save, pois se pretende não fazer uma lista de arquivos.
 
 
@@ -37,7 +46,5 @@ def image_downloader():
 saveAsButton = tk.Button(text='Baixar imagem', command=image_downloader, bg='green', fg='white', font=('Arial', 12, 'bold'))
 canvas.create_window(150, 180, window=saveAsButton)
 saveAsButton.grid(columnspan=6, column=0, row=4)
-
-#pop-up de ação bem sucedida:
 
 ws.mainloop()
